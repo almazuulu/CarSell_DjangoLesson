@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Связаться с нами</title>
+</head>
+<body>
+<h1>  Связаться с нами Templates</h1>
+
+<h1> Hello World! </h1>
+    <p>
+        Aдрес: <b>{{ address }}</b>
+    </p>
+
+    <p>
+        Телефон: <u>{{ telephone }}</u>
+    </p>
+
+<h3>Контактные адреса: </h3>
+    <ul>
+        <li>{{ names.0 }}</li>
+        <li>{{ names.1 }}</li>
+        <li>{{ names.2 }}</li>
+    </ul>
+
+<h3>Контактные адреса (Циклом): </h3>
+    <ul>
+        {% for name in names %}
+        <li>{{ name }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Информация про компанию: </h3>
+    <ul>
+        <li>{{ c_info.inn }}</li>
+        <li>{{ c_info.osoo }}</li>
+        <li>{{ c_info.company_age }}</li>
+    </ul>
+
+</body>
+</html>
