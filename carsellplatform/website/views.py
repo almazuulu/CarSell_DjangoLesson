@@ -3,10 +3,9 @@ from .models import Team
 
 def index(request):
     teams = Team.objects.all()  # select * from Team;
-    cars =  Cars.objects.all()
+    
     context = {
         'teams': teams,
-        'cars': cars
     }
     return render(request, 'website/index.html', context)
 
