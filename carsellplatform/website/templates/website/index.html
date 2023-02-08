@@ -901,9 +901,11 @@
                 <div class="slick-slide-item">
                     <div class="team-1">
                         <div class="photo">
+                            {% if team.photo %}
                             <a href="#">
                                 <img src="{{ team.photo.url }}" alt="team-1" class="img-fluid">
                             </a>
+                            {% endif %}
                             <div class="social-list clearfix">
                                 <a href="{{ team.facebook_link }}" class="facebook-bg"><i class="fa fa-facebook"></i></a>
                                 <a href="{{ team.twitter_link }}" class="twitter-bg"><i class="fa fa-twitter"></i></a>
