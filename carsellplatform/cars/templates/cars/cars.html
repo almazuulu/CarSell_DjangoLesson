@@ -1,9 +1,7 @@
 {% extends 'base.html' %} 
 {% load static %}
-
-
+{% block title %} All Cars {% endblock %}
 {% block content %}
-
 <!-- Sub banner start -->
 <div class="sub-banner overview-bgi">
     <div class="container breadcrumb-area">
@@ -56,14 +54,14 @@
                                 </div>
                             </div>
                             <div class="detail">
+                                <a href="{% url 'cardetails' car.pk %}">
                                 <h1 class="title">
-                                    <a href="car-details.html">{{ car.carcar_title }}</a>
+                                    {{ car.car_title }}
                                 </h1>
                                 <div class="location">
-                                    <a href="car-details.html">
                                         <i class="flaticon-pin"></i> {{ car.state }}, {{ car.city }}
-                                    </a>
                                 </div>
+                            </a>
                                 <ul class="facilities-list clearfix">
                                     <li>{{ car.fuel_type }}</li>
                                     <li>{{ car.kilometers }} km</li>

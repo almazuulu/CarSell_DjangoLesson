@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from datetime import datetime
+from ckeditor.fields import RichTextField
 from multiselectfield import MultiSelectField
 
 class Car(models.Model):
@@ -51,7 +52,7 @@ class Car(models.Model):
     year = models.IntegerField(('year'), choices=year_choise)
     condition = models.CharField(max_length=255)
     price = models.IntegerField()
-    description = models.TextField()
+    description = RichTextField()
     car_main_photo = models.ImageField(upload_to='photos/cars/%Y/%m/%d/', null=True, blank=True)
     features = MultiSelectField(choices=featured_options, max_length=255)
     body_style = models.CharField(max_length=255)

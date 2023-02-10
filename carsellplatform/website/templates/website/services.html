@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block title %}{{ title }}{% endblock %}
 {% block content %}
+
 <!-- Sub banner start -->
 <div class="sub-banner overview-bgi">
     <div class="container breadcrumb-area">
         <div class="breadcrumb-areas">
             <h1>Services</h1>
             <ul class="breadcrumbs">
-                <li><a href="index.html">Home</a></li>
+                <li><a href="{% url 'home' % }">Home</a></li>
                 <li class="active">Services</li>
             </ul>
         </div>

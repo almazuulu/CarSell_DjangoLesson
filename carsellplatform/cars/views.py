@@ -11,3 +11,11 @@ def allcars(request):
     }
     
     return render(request, 'cars/cars.html', context)
+
+def cardetails(request, id):
+    car = Car.objects.get(pk = id)
+    context = {
+        'car': car,
+    }
+    return render(request, 'cars/car-details.html', context)
+    
