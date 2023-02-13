@@ -1,5 +1,6 @@
 {% extends 'base.html' %} 
 {% load static %}
+{% load humanize %}
 {% block title %} All Cars {% endblock %}
 {% block content %}
 <!-- Sub banner start -->
@@ -30,9 +31,11 @@
                                 <a href="car-details.html" class="car-img">
                                     {% comment %} <div class="tag">For Rent</div> {% endcomment %}
                                     <div class="price-box">
-                                        <span>${{car.price}}</span>
+                                        <span>${{car.price | intcomma }}</span>
                                     </div>
+                                    {% if car.car_main_photo%}
                                     <img class="d-block w-100" src="{{ car.car_main_photo.url }}" alt="car">
+                                    {% endif %}
                                 </a>
                                 <div class="carbox-overlap-wrapper">
                                     <div class="overlap-box">
@@ -55,12 +58,20 @@
                             </div>
                             <div class="detail">
                                 <a href="{% url 'cardetails' car.pk %}">
-                                <h1 class="title">
-                                    {{ car.car_title }}
+                                <h1 class="title {% cycle 'text-primary' 'text-info' %}">
+
+                                    {{ car.car_title | upper }}
+
                                 </h1>
                                 <div class="location">
                                         <i class="flaticon-pin"></i> {{ car.state }}, {{ car.city }}
                                 </div>
+
+                                  {% comment %} {% autoescape off %}
+                                     <p>{{ car.description|truncatewords:10 }}</p>
+                                  {% endautoescape %}
+                                {% endcomment %}
+                             
                             </a>
                                 <ul class="facilities-list clearfix">
                                     <li>{{ car.fuel_type }}</li>
@@ -70,6 +81,11 @@
                                     <li>{{ car.color }}</li>
                                     <li>{{ car.year }}</li>
                                 </ul>
+                               
+                                <b> Advertisment created:</b> <br/>
+                                {{car.created_date|date:"d-m-Y H:i:s"}}
+                                
+                                
                             </div>
                         </div>
                     </div>

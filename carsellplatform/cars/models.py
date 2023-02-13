@@ -52,7 +52,7 @@ class Car(models.Model):
     year = models.IntegerField(('year'), choices=year_choise)
     condition = models.CharField(max_length=255)
     price = models.IntegerField()
-    description = RichTextField()
+    description = RichTextField(blank=True, null=True)
     car_main_photo = models.ImageField(upload_to='photos/cars/%Y/%m/%d/', null=True, blank=True)
     features = MultiSelectField(choices=featured_options, max_length=255)
     body_style = models.CharField(max_length=255)

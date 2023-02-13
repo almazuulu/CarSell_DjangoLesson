@@ -5,9 +5,12 @@ from .models import Car, CarPhoto
 
 def allcars(request):
     allcars = Car.objects.all() #select * from cars;
-    
+    text_blue = 'text-primary'
+    textSome = 'Some$Text$Django$Lesson'
     context = {
-        'allcars': allcars
+        'allcars': allcars,
+        'text_blue': text_blue,
+        'textSome': textSome,
     }
     
     return render(request, 'cars/cars.html', context)
