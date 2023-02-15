@@ -24,7 +24,7 @@
             <div class="col-lg-8 col-md-12">
                 
                 <div class="row">
-                    {% for car in allcars %}
+                    {% for car in paged_cars %}
                     <div class="col-lg-6 col-md-6">
                         <div class="car-box-3">
                             <div class="car-thumbnail">
@@ -149,17 +149,33 @@
                 <!-- Page navigation start -->
                 <div class="pagination-box p-box-2 text-center">
                     <nav aria-label="Page navigation example">
+
+                        {% if paged_cars.has_other_pages %}
                         <ul class="pagination">
+
+                            {% if paged_cars.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ paged_cars.previous_page_number }}"><i class="fa fa-angle-left"></i></a>
+                                </li>
+                            {% endif %}
+
+                            {% for i in paged_cars.paginator.page_range %}
+                                {% if paged_cars.number == i  %}
+                                    <li class="page-item"><a class="page-link active" href="#">{{ i }}</a></li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if paged_cars.has_next %}
                             <li class="page-item">
-                                <a class="page-link" href="#"><i class="fa fa-angle-left"></i></a>
+                                <a class="page-link" href="?page= {{ paged_cars.next_page_number }}"><i class="fa fa-angle-right"></i></a>
                             </li>
-                            <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fa fa-angle-right"></i></a>
-                            </li>
+                            {% endif %}
+
                         </ul>
+                        {% endif %}
+
                     </nav>
                 </div>
             </div>
@@ -168,55 +184,45 @@
                     <!-- Advanced search start -->
                     <div class="widget advanced-search2">
                         <h3 class="sidebar-title">Search your desire car</h3>
-                        <form method="GET">
+                        <form action="{% url 'search' %}" method="GET">
                             <div class="form-group">
-                                <select class="selectpicker search-fields" name="brand">
-                                    <option>Brand</option>
-                                    <option>Any</option>
-                                    <option>New</option>
-                                    <option>Semi-New</option>
-                                    <option>Damaged</option>
-                                    <option>Used</option>
+                                <select class="selectpicker search-fields" name="model">
+                                    <option disabled="disabled" selected="selected">Model</option>
+                                    {% for model in model_search %}
+                                        <option value="{{ model }}">{{ model }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="form-group">
-                                <select class="selectpicker search-fields" name="location">
-                                    <option>Location</option>
-                                    <option>United States</option>
-                                    <option>United Kingdom</option>
-                                    <option>American Samoa</option>
-                                    <option>Belgium</option>
-                                    <option>Cameroon</option>
-                                    <option>Canada</option>
+                                <select class="selectpicker search-fields" name="city">
+                                    <option disabled="disabled" selected="selected">City</option>
+                                     {% for city in city_search %}
+                                        <option value="{{ city }}">{{ city }}</option>
+                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="form-group">
                                 <select class="selectpicker search-fields" name="year">
-                                    <option>Year</option>
-                                    <option>2016</option>
-                                    <option>2017</option>
-                                    <option>2018</option>
-                                    <option>2019</option>
-                                    <option>2020</option>
+                                    <option disabled="disabled" selected="selected">Year</option>
+                                    {% for year in year_search %}
+                                        <option value="{{ year }}">{{ year }}</option>
+                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="form-group">
-                                <select class="selectpicker search-fields" name="category">
-                                    <option>Category</option>
-                                    <option>Luxury Car</option>
-                                    <option>Pickup Truck</option>
-                                    <option>Minivan</option>
-                                    <option>Truck</option>
-                                    <option>Sports Car</option>
-                                    <option>Wagon</option>
+                                <select class="selectpicker search-fields" name="body_style">
+                                    <option disabled="disabled" selected="selected">Body Style</option>
+                                     {% for bs in bs_style_search %}
+                                        <option value="{{ bs }}">{{ bs }}</option>
+                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="form-group">
                                 <select class="selectpicker search-fields" name="transmission">
-                                    <option>Transmission</option>
-                                    <option>Automatic</option>
-                                    <option>Manual</option>
-                                    <option>Tiptronic</option>
+                                    <option disabled="disabled" selected="selected">Transmission</option>
+                                    {% for transmission in transimssion_search %}
+                                        <option value="{{ transmission }}">{{ transmission }}</option>
+                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="range-slider clearfix">
