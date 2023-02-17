@@ -10,18 +10,20 @@ def allcars(request):
     page = request.GET.get('page')
     paged_cars = paginator.get_page(page)
     
-    model_search = Car.objects.values_list('model', flat=True).distinct
-    city_search = Car.objects.values_list('city', flat=True).distinct
-    year_search = Car.objects.values_list('year', flat=True).distinct
-    bs_style_search = Car.objects.values_list('body_style', flat=True).distinct
-    transimssion_search = Car.objects.values_list('transmission', flat=True).distinct
+    model_search = Car.objects.values_list('model', flat=True).distinct()
+    city_search = Car.objects.values_list('city', flat=True).distinct()
+    year_search = Car.objects.values_list('year', flat=True).distinct()
+    year_search = list(set(year_search))
+    year_search.sort()
+    bs_style_search = Car.objects.values_list('body_style', flat=True).distinct()
+    transimssion_search = Car.objects.values_list('transmission', flat=True).distinct()
     
     context = {
-        'model_search': model_search,
-        'city_search': city_search,
+        'model_search': set(model_search),
+        'city_search': set(city_search),
+        'transimssion_search': set(transimssion_search),
+        'bs_style_search': set(bs_style_search),
         'year_search': year_search,
-        'bs_style_search': bs_style_search,
-        'transimssion_search': transimssion_search,
         'paged_cars': paged_cars,
         'allcars': allcars,
     }
@@ -38,11 +40,13 @@ def cardetails(request, id):
 
 def search(request):
     cars = Car.objects.order_by('-created_date')
-    model_search = Car.objects.values_list('model', flat=True).distinct
-    city_search = Car.objects.values_list('city', flat=True).distinct
-    year_search = Car.objects.values_list('year', flat=True).distinct
-    bs_style_search = Car.objects.values_list('body_style', flat=True).distinct
-    transimssion_search = Car.objects.values_list('transmission', flat=True).distinct
+    model_search = Car.objects.values_list('model', flat=True).distinct()
+    city_search = Car.objects.values_list('city', flat=True).distinct()
+    year_search = Car.objects.values_list('year', flat=True).distinct()
+    year_search = list(set(year_search))
+    year_search.sort()
+    bs_search = Car.objects.values_list('body_style', flat=True).distinct()
+    transmission_search = Car.objects.values_list('transmission', flat=True).distinct()
     
     if 'keyword' in request.GET:
         keyword = request.GET['keyword']
@@ -89,10 +93,10 @@ def search(request):
     
     context = {
         'cars': cars,
-        'model_search': model_search,
-        'city_search': city_search,
+        'model_search': set(model_search),
+        'city_search': set(city_search),
+        'transimssion_search': set(transmission_search),
+        'bs_style_search': set(bs_search),
         'year_search': year_search,
-        'bs_style_search': bs_style_search,
-        'transimssion_search': transimssion_search,
     }
     return render(request, 'cars/search.html', context)

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "website.apps.WebsiteConfig",
     "cars.apps.CarsConfig",
+    "uaccounts.apps.UaccountsConfig",
 ]
 
 MIDDLEWARE = [
