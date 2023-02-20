@@ -29,7 +29,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTHENTICATION_BACKENDS = [
+   
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
 
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+   
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,11 +47,23 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
     "ckeditor",
+    "active_link",
     "django.contrib.humanize",
     "website.apps.WebsiteConfig",
     "cars.apps.CarsConfig",
     "uaccounts.apps.UaccountsConfig",
+    
+    # allaccounts:
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    
+    # providers
+    "allauth.socialaccount.providers.facebook",
+    "allauth.socialaccount.providers.google",
+    
 ]
 
 MIDDLEWARE = [
@@ -128,12 +148,30 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
 
+LOGIN_REDIRECT_URL= 'dashboard'
+SITE_ID = 1
 
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         # For each OAuth based provider, either add a ``SocialApp``
+#         # (``socialaccount`` app) containing the required client
+#         # credentials, or list them here:
+#         'SCOPE': [
+#             'profie',
+#             'email',  
+#         ],
+#         'AUTH_PARAMS':{
+#             'access_type':'online', 
+#         }
+#     }
+# }
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 CKEDITOR_CONFIGS = {
     'default': {

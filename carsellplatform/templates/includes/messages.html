@@ -2,7 +2,7 @@
     {% for message in messages %}
         <div id="message" class ="container" >
             <div class ="alert alert-{{ message.tags }}" alert-dismissable role= "alert">
-                <button class="close" type="button" data-dismiss="alert"><span aria-hidden="true"> &times;</button>
+                <button class="close" type="button" data-dismiss="alert"><span aria-hidden="true">&times;</button>
                 <strong>
                     {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
                         Error: 
@@ -13,5 +13,4 @@
                 {{ message }}
         </div>
     {% endfor %}
-
 {% endif %}

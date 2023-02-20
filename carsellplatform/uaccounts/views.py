@@ -7,6 +7,7 @@ def login(request):
     if request.method == 'POST':
     
         username = request.POST['username']
+        # username = username.lower()
         password = request.POST['password']
         
         user = auth.authenticate(username=username, password=password)
@@ -14,7 +15,7 @@ def login(request):
         if user:
             auth.login(request, user)
             messages.success(request, 'You are now logged in!')
-            return redirect('cars')
+            return redirect('dashboard')
         else:
             return redirect('login')
     
@@ -49,10 +50,15 @@ def register(request):
                     user.save()
                     auth.login(request, user)
                     messages.success(request, 'You are now logged in!')
-                    return redirect('cars')
+                    return redirect('dashboard')
         else:
             return redirect('register')
              
     else:
         return render(request, 'uaccounts/register.html') 
-    
+
+
+def dashboard(request):
+    user_id = request.user.id
+
+    return render(request, 'uaccounts/dashboard.html')

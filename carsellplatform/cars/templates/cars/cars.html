@@ -20,12 +20,6 @@
 <!-- Featured car start -->
 <div class="featured-car content-area">
     <div class="container">
-        {% include 'includes/messages.html' %}
-        
-        <div class="main-title" style="text-align: left !import">
-              <h1> Welcome! <span> {{ user.first_name }}, </span></h1>  
-        </div>  
-         
         <div class="row">
             <div class="col-lg-8 col-md-12">
                 
@@ -178,6 +172,10 @@
                                 <a class="page-link" href="?page= {{ paged_cars.next_page_number }}"><i class="fa fa-angle-right"></i></a>
                             </li>
                             {% endif %}
+
+                            <li class="page-item">
+                                <a href="?page= {{ paged_cars.paginator.num_pages }}">Last Page</a>
+                            </li>
 
                         </ul>
                         {% endif %}
