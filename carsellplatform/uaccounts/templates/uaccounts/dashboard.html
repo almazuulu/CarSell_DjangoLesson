@@ -44,7 +44,9 @@
 			<td>{{ car.car_title}}</td>
 			<td>{{ car.city }}, {{car.city}}</td>
 			<td>${{car.price | intcomma}}</td>
-			<td><a href="" class="btn btn-outline-dark">View Car</a></td>
+			<td>
+				<a href="{% url 'cardetails' car.id %}" class="btn btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></a>
+			</td>
 		</tr>
 		{% endfor %}
 	  </tbody>

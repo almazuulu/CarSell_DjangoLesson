@@ -3,11 +3,14 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Contact
 from django.core.mail import send_mail
+from django.http import HttpResponseRedirect
+
 
 
 def inquiry(request):
     if request.method == 'POST':
         car_id = request.POST['car_id']
+        user_id = request.POST['user_id']
         car_title = request.POST['car_title']
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
@@ -21,8 +24,8 @@ def inquiry(request):
         message = request.POST['message']
         
         if request.user.is_authenticated:
-            userid = request.user.id
-            has_contacted = Contact.objects.all().filter(user_id = userid, car_id = car_id)
+            # userid = request.user.id
+            has_contacted = Contact.objects.all().filter(user_id = user_id, car_id = car_id)
             
             if has_contacted:
                 messages.error(request, 'Sorry, but you have already contacted regarding this automobile')
@@ -30,7 +33,7 @@ def inquiry(request):
         
         contact = Contact.objects.create(
             car_id = car_id, car_title = car_title,
-            user_id = request.user.id, first_name = first_name,
+            user_id = user_id, first_name = first_name,
             last_name = last_name, customer_need = customer_need,
             city = city, state = state, email = email, phone = phone,
             message = message,
@@ -51,6 +54,11 @@ def inquiry(request):
         messages.success(request, 'Your request has been submited, we will get back to you shortly')
         return redirect('/cars/'+car_id)
         
+
+
+
+
+
 
 
                 

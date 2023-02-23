@@ -74,8 +74,7 @@ def dashboard(request):
         
     context = {
         'allInquires':allInquires,
-        'cars': 'carListView',
+        'cars': carListView,
     }
-    
     
     return render(request, 'uaccounts/dashboard.html', context)
