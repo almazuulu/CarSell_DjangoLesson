@@ -38,13 +38,15 @@
 		</tr>
 	  </thead>
 	  <tbody>
+		{% for car in cars %}
 		<tr>
-			<th scope="row">1</th>
-			<td>Lamborgini Huracan</td>
-			<td>Austin</td>
-			<td>$25000</td>
-			<td><a href="#" class="btn btn-outline-dark">View Car</a></td>
-		  </tr>
+			<th scope="row">{{ forloop.counter }}</th>
+			<td>{{ car.car_title}}</td>
+			<td>{{ car.city }}, {{car.city}}</td>
+			<td>${{car.price | intcomma}}</td>
+			<td><a href="" class="btn btn-outline-dark">View Car</a></td>
+		</tr>
+		{% endfor %}
 	  </tbody>
 	</table>
 	

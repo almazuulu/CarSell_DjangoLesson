@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "website.apps.WebsiteConfig",
     "cars.apps.CarsConfig",
     "uaccounts.apps.UaccountsConfig",
+    "contacts.apps.ContactsConfig",
     
     # allaccounts:
     'allauth',
@@ -172,6 +173,15 @@ SITE_ID = 1
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+
+# Email Settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'djangobekov2022@gmail.com'
+EMAIL_HOST_PASSWORD = 'vxhjqjgrvbwvrfdz'
+EMAIL_USE_TSL = False
+EMAIL_USE_SSL = True
+
 
 CKEDITOR_CONFIGS = {
     'default': {
