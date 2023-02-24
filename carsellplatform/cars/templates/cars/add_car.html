@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Add new car{% endblock %}
+{% block content %}
+<!-- Sub banner start -->
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>Add new car</h1>
+            <ul class="breadcrumbs">
+                <li><a href="{% url 'home' % }">Home</a></li>
+                <li class="active">Add new car</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Sub Banner end -->
+
+<!-- Contact 2 start -->
+<div class="contact-2 content-area-5">
+    <div class="container">
+        <!-- Main title -->
+        <div class="main-title text-center">
+            <h1>Add new <span> Car</span></h1>
+            <p>It's the form for adding your car</p>
+        </div>
+        {% include 'includes/messages.html' %}
+        <form method = "post" action = "{% url 'add_car' %}" enctype = "multipart/form-data">
+            {% csrf_token %}
+            {{ car_form.as_p }}
+            {{ cars_photo_form.as_p }}
+            
+            <div class="col-md-12">
+                <div class="send-btn text-center">
+                    <button type="submit" class="btn btn-md button-theme">Add car</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Add car end -->
+{% endblock %}

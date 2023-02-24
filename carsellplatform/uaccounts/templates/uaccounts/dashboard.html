@@ -17,13 +17,13 @@
 </div>
 <!-- Sub Banner end -->
 
-
 <!--   Dashboard Start   -->
 <div class="container mt-50 mb-50">
 	{% include 'includes/messages.html' %}
+	{% if allInquires %}
 	<div class="main-title" style="text-align:left !important;">
             <h1>Welcome <span>{{ user.first_name }},</span></h1>
-
+		
             <p>Here are the cars that you have inquired about</p>
     </div>
 	
@@ -46,11 +46,20 @@
 			<td>${{car.price | intcomma}}</td>
 			<td>
 				<a href="{% url 'cardetails' car.id %}" class="btn btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></a>
+				<a href="{% url 'delete_inquiry' car.id %}" class="btn btn-outline-dark"><i class="fa fa-trash" aria-hidden="true"></i></a>
 			</td>
 		</tr>
 		{% endfor %}
 	  </tbody>
 	</table>
+
+	{% else %}
+	<div class="main-title" style="text-align:left !important;">
+		<h1>Welcome <span>{{ user.first_name }},</span></h1>
+	
+		<p>You don't have any inquiries yet</p>
+	</div>
+	{% endif %}
 	
 </div>
 <!--   Dashboard End   -->

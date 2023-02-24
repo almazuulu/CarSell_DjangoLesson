@@ -55,7 +55,13 @@ def inquiry(request):
         return redirect('/cars/'+car_id)
         
 
+def delete_inquiry(request, id):
+    Contact.objects.filter(car_id = id).delete()
+    messages.success(request, 'Your inquire was successfully deleted!')
+    return redirect('/accounts/dashboard')
 
+
+    
 
 
 

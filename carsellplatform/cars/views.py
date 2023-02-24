@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Car, CarPhoto
 from django.core.paginator import Paginator
-
-# Create your views here.
+from .forms import CarForm, CarsPhotoForm
+from django.contrib.auth.decorators import login_required
 
 def allcars(request):
     allcars = Car.objects.all() #select * from cars;
@@ -36,7 +36,7 @@ def cardetails(request, id):
         'car': car,
     }
     return render(request, 'cars/car-details.html', context)
-    
+
 
 def search(request):
     cars = Car.objects.order_by('-created_date')
@@ -100,3 +100,34 @@ def search(request):
         'year_search': year_search,
     }
     return render(request, 'cars/search.html', context)
+
+@login_required
+def add_car(request):
+    if request.method == 'POST':
+        car_form = CarForm(request.POST, request.FILES)
+        cars_photo_form = CarsPhotoForm(request.POST, request.FILES)
+        
+        if car_form.is_valid() and cars_photo_form.is_valid():
+            car = car_form.save(commit=False)
+            car.save()
+            cars_photo_form.instance.car_photo = car
+            cars_photo_form.save()
+            
+            # Saving main photo
+            if 'car_main_photo' in request.FILES:
+                car.car_main_phot = request.FILES['car_main_photo']
+                car.save()
+            return redirect('cardetails', id = car.id)
+    else:
+        car_form = CarForm()
+        cars_photo_form = CarsPhotoForm()
+    
+    return render(request, 'cars/add_car.html', {
+        'car_form': car_form,
+        'cars_photo_form': cars_photo_form,
+    })
+
+    
+            
+    
+    
