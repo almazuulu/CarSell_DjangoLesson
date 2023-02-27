@@ -5,8 +5,6 @@ from .models import Contact
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 
-
-
 def inquiry(request):
     if request.method == 'POST':
         car_id = request.POST['car_id']

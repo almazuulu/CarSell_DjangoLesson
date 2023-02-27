@@ -1,6 +1,5 @@
 from django.urls import path
 from .views import allcars, cardetails, search, add_car
-
 urlpatterns = [
     path('', allcars, name = 'cars'),
     path('search', search, name='search'),

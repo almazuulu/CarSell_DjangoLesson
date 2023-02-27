@@ -8,7 +8,6 @@ from cars.models import Car
 
 def login(request):
     if request.method == 'POST':
-    
         username = request.POST['username']
         # username = username.lower()
         password = request.POST['password']

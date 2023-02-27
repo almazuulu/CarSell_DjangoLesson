@@ -90,7 +90,6 @@ def search(request):
         if max_price:
             cars = cars.filter(price__gte=min_price, price__lte=max_price )
 
-    
     context = {
         'cars': cars,
         'model_search': set(model_search),
@@ -126,8 +125,3 @@ def add_car(request):
         'car_form': car_form,
         'cars_photo_form': cars_photo_form,
     })
-
-    
-            
-    
-    

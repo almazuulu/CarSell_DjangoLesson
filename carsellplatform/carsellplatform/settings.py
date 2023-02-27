@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config 
+from decouple import Csv
 import os
 
 
@@ -22,13 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-60f(3$dj4#&x_!j6(j=qa*&ozjy^zc7!&((l!&@7ibkuz+pqr_"
+SECRET_KEY = config('SECRET_KEY') 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool) 
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv()) 
 AUTHENTICATION_BACKENDS = [
    
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -70,11 +71,14 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.cache.UpdateCacheMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django.middleware.cache.FetchFromCacheMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = "carsellplatform.urls"
@@ -95,6 +99,13 @@ TEMPLATES = [
     },
 ]
 
+CACHES = {
+    'default':{
+        'BACKEND':'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
+
+
 WSGI_APPLICATION = "carsellplatform.wsgi.application"
 
 
@@ -104,10 +115,10 @@ WSGI_APPLICATION = "carsellplatform.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "carsbishdb",
-        "USER": "postgres",
-        "PASSWORD": "qwerty123$",
-        "HOST": "localhost"
+        "NAME": config('DB_NAME'),
+        "USER": config('DB_USER'),
+        "PASSWORD": config('DB_PASSWORD'),
+        "HOST": config('DB_HOST'),
     }
 }
 
@@ -148,6 +159,7 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 LOGIN_REDIRECT_URL= 'dashboard'
 SITE_ID = 1
@@ -175,12 +187,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 # Email Settings
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = 'djangobekov2022@gmail.com'
-EMAIL_HOST_PASSWORD = 'vxhjqjgrvbwvrfdz'
-EMAIL_USE_TSL = False
-EMAIL_USE_SSL = True
+EMAIL_HOST = config('EMAIL_HOST', cast=str)
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', cast=str)
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', cast=str)
+EMAIL_USE_TSL = config('EMAIL_USE_TSL', cast=bool)
+EMAIL_USE_SSL = config('EMAIL_USE_SSL', cast=bool)
 
 
 CKEDITOR_CONFIGS = {

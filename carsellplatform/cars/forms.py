@@ -5,6 +5,7 @@ class CarForm(forms.ModelForm):
     class Meta:
         model = Car
         fields = '__all__'
+        
         widgets = {
             'car_title': forms.TextInput(attrs={'class': 'form-control'}),
             'state': forms.Select(attrs={'class': 'form-control'}),
