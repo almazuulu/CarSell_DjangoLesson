@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Car, CarPhoto
 from django.core.paginator import Paginator
 from .forms import CarForm, CarsPhotoForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.models import User
 
 def allcars(request):
     allcars = Car.objects.all() #select * from cars;
@@ -100,7 +102,7 @@ def search(request):
     }
     return render(request, 'cars/search.html', context)
 
-@login_required
+@login_required(login_url='login')
 def add_car(request):
     if request.method == 'POST':
         car_form = CarForm(request.POST, request.FILES)
@@ -108,6 +110,7 @@ def add_car(request):
         
         if car_form.is_valid() and cars_photo_form.is_valid():
             car = car_form.save(commit=False)
+            car.owner = request.user
             car.save()
             cars_photo_form.instance.car_photo = car
             cars_photo_form.save()
@@ -125,3 +128,44 @@ def add_car(request):
         'car_form': car_form,
         'cars_photo_form': cars_photo_form,
     })
+    
+@login_required(login_url='login')
+def delete_car(request, id):
+    user_id = request.user.id
+    user = User.objects.get(id = user_id)
+    Car.objects.filter(id=id, owner=user).delete()
+    messages.success(request, 'Your car was successfully deleted!')
+
+    return redirect('/accounts/user_cars')
+
+
+@login_required(login_url='login')
+def update_car(request, id):
+    user_id = request.user.id
+    user = User.objects.get(id = user_id)
+    car = get_object_or_404(Car, id=id, owner=user)
+    
+    if request.method == "POST":
+        car_form = CarForm(request.POST, instance=car)
+        
+        if car_form.is_valid():
+            car = car_form.save(commit = False)
+            car.save()
+            
+            #Updating main photo
+            if 'car_main_photo' in request.FILES:
+                car.car_main_photo = request.FILES['car_main_photo']
+                car.save()
+                
+                return redirect('cardetails', id=car.id)
+
+            return redirect('cardetails', id=car.id)
+            
+    else:
+        car_form = CarForm(instance=car)
+    
+    context = {
+            'car_form': car_form,
+            'car': car,
+    }
+    return render(request, 'cars/update_car.html', context)

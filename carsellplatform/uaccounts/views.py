@@ -60,7 +60,7 @@ def register(request):
         return render(request, 'uaccounts/register.html') 
 
 
-@login_required
+@login_required(login_url='login')
 def dashboard(request):
     user_id = request.user.id
     allInquires = Contact.objects.order_by('-created_date').filter(user_id=user_id)
@@ -77,3 +77,14 @@ def dashboard(request):
     }
     
     return render(request, 'uaccounts/dashboard.html', context)
+
+
+@login_required(login_url='login')
+def user_cars(request):
+    user_id = request.user.id
+    user = User.objects.get(id = user_id)
+    usercars = user.cars.all()
+    context = {
+        'usercars':usercars,
+    }
+    return render(request, 'uaccounts/user_cars.html', context)

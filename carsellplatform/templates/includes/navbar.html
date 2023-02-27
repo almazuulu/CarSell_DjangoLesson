@@ -13,6 +13,7 @@
             
             {% url 'home' as index %}
             {% url 'cars' as carsmenu %}
+            {% url 'user_cars' as user_cars %}
             {% url 'about' as about %}
             {% url 'services' as services %}
             {% url 'contact' as contact %}
@@ -41,6 +42,19 @@
                             Cars
                         </a>
                     </li>
+
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a {% if '/accounts/user_cars' == request.path %}
+                            class="nav-link active" 
+                            {% else %}
+                            class="nav-link" 
+                            {% endif %}
+                         href="{% url 'user_cars' %}">
+                            My Cars
+                        </a>
+                    </li>
+                    {% endif %}
                 
                     <li class="nav-item">
                         <a {% if '/about/' == request.path %}

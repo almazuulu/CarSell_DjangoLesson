@@ -82,7 +82,11 @@
                                     <li>{{ car.year }}</li>
                                 </ul>
                                
-                                <b> Advertisment created:</b> <br/>
+                                <i> Ad created</i>
+                                    {% if car.owner %}
+                                    by <b>{{ car.owner.first_name }} {{ car.owner.last_name }}</b>
+                                    {% endif %}
+                                    : <br/>
                                 {{car.created_date|date:"d-m-Y H:i:s"}}
                                 
                                 

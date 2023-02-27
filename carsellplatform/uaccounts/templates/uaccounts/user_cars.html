@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %} User's car {% endblock %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<!-- Sub banner start -->
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>User's Cars</h1>
+            <ul class="breadcrumbs">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li class="active">User's Cars</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Sub Banner end -->
+
+<!--   Dashboard Start   -->
+<div class="container mt-50 mb-50">
+	{% include 'includes/messages.html' %}
+	{% if usercars %}
+	<div class="main-title" style="text-align:left !important;">
+            <h1>Hey, <span>{{ user.first_name }}</span></h1>
+		
+            <p>Here is your cars that you added</p>
+    </div>
+	
+	<table class="table table-hover">
+	  <thead>
+		<tr>
+		  <th scope="col">#</th>
+		  <th scope="col">Car Name</th>
+		  <th scope="col">Location</th>
+		  <th scope="col">Price</th>
+		  <th scope="col">Action</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		{% for car in usercars %}
+		<tr>
+			<th scope="row">{{ forloop.counter }}</th>
+			<td>{{ car.car_title}}</td>
+			<td>{{ car.city }}, {{car.city}}</td>
+			<td>${{car.price | intcomma}}</td>
+			<td>
+				<a href="{% url 'cardetails' car.id %}" class="btn btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></a>
+				<a href="{% url 'delete_car' car.id %}" class="btn btn-outline-dark"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                <a href="{% url 'update_car' car.id %}" class="btn btn-outline-dark"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+			</td>
+		</tr>
+		{% endfor %}
+	  </tbody>
+	</table>
+
+	{% else %}
+	<div class="main-title" style="text-align:left !important;">
+		<h1>Hey <span>{{ user.first_name }},</span></h1>
+	
+		<p>You have not published any cars yet</p>
+	</div>
+	{% endif %}
+	
+</div>
+<!--   Dashboard End   -->
+{% endblock %}
+
+
+
+
+

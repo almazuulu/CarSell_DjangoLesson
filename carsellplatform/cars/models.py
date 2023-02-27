@@ -3,6 +3,7 @@ from django.db import models
 from datetime import datetime
 from ckeditor.fields import RichTextField
 from multiselectfield import MultiSelectField
+from django.contrib.auth.models import User
 
 class Car(models.Model):
     state_choice = (
@@ -45,6 +46,7 @@ class Car(models.Model):
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
     car_title = models.CharField(max_length=255)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cars', null = True, blank = True)
     state = models.CharField(choices=state_choice, max_length=100)
     city = models.CharField(max_length=255)
     color = models.CharField(max_length=255)
