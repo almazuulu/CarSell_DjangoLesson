@@ -22,11 +22,12 @@
 	{% include 'includes/messages.html' %}
 	{% if usercars %}
 	<div class="main-title" style="text-align:left !important;">
-			{% if userscars.owner.first_name == '' %}
-				<h1>Hey, <span>{{ userscars.owner }}</span></h1>
-			{% else %}
-            	<h1>Hey, <span>{{ userscars.owner }}</span></h1>
-			{% endif %}
+			
+		{% if user.first_name %}
+			<h1>Hey, <span>{{ user.first_name }} {{ user.last_name }}</span></h1>
+		{% else %}
+			<h1>Hey, <span>{{ user.username|title }},</span></h1>
+		{% endif %}
 		
             <p>Here is your cars that you added</p>
     </div>
@@ -60,7 +61,11 @@
 
 	{% else %}
 	<div class="main-title" style="text-align:left !important;">
-		<h1>Hey <span>{{ user.first_name }},</span></h1>
+			{% if user.first_name %}
+            	<h1>Hey, <span>{{ user.first_name }} {{ user.last_name }}</span></h1>
+			{% else %}
+				<h1>Hey, <span>{{ user.username|title }},</span></h1>
+			{% endif %}
 	
 		<p>You have not published any cars yet</p>
 	</div>

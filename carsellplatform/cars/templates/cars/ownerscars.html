@@ -8,7 +8,7 @@
     <div class="container breadcrumb-area">
         <div class="breadcrumb-areas">
 			
-            <h1>{{ owner.first_name }}'s Cars</h1>
+            <h1>{{ owner.first_name }} {{ owner.last_name }}'s Cars</h1>
             <ul class="breadcrumbs">
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li class="active">{{ owner }}'s Cars</li>
@@ -25,12 +25,12 @@
 
     {% if request.user.id == owner.id %}
 	<div class="main-title" style="text-align:left !important;">
-            <h1>Dear <span>{{ owner.first_name }},</span></h1>
+            <h1>Dear <span>{{ owner.first_name }} {{ owner.last_name }},</span></h1>
             <p>Here is your cars that you published on a website</p>
     </div>
     {% else %}
     <div class="main-title" style="text-align:left !important;">
-        <h1><span>{{ owner.first_name }}'s</span> cars list </h1>
+        <h1><span>{{ owner.first_name }} {{ owner.last_name }}'s</span> cars list </h1>
         <p>Here is cars that {{ owner.first_name }} published on a website</p>
     </div>
     {% endif %}

@@ -22,8 +22,12 @@
 	{% include 'includes/messages.html' %}
 	{% if allInquires %}
 	<div class="main-title" style="text-align:left !important;">
-            <h1>Welcome <span>{{ user.first_name }},</span></h1>
-		
+			{% if user.first_name %}
+				<h1>Welcome <span>{{ user.first_name }} {{ user.last_name }},</span></h1>
+			{% else %}
+				<h1>Welcome <span>{{ user.username|title }},</span></h1>
+			{% endif %}
+
             <p>Here are the cars that you have inquired about</p>
     </div>
 	
@@ -55,7 +59,11 @@
 
 	{% else %}
 	<div class="main-title" style="text-align:left !important;">
-		<h1>Welcome <span>{{ user.first_name }},</span></h1>
+			{% if user.first_name %}
+				<h1>Welcome <span>{{ user.first_name }} {{ user.last_name }},</span></h1>
+			{% else %}
+				<h1>Welcome <span>{{ user.username|title }},</span></h1>
+			{% endif %}
 	
 		<p>You don't have any inquiries yet</p>
 	</div>

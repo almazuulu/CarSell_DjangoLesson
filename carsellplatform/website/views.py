@@ -20,6 +20,7 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['featured_cars'] =  Car.objects.order_by('-created_date').filter(is_featured=True)
         context['all_cars'] = Car.objects.order_by('-created_date')
+        context['teams'] = Team.objects.all()  # select * from Team;
         context['title'] = 'Cars.KG Home Page'
         context.update(**get_search_filters())
         
@@ -39,11 +40,12 @@ class IndexView(TemplateView):
 class TeamsView(TemplateView):
     template_name = 'website/teams.html'
     
-    def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
-        context['teams'] = Team.objects.all()  # select * from Team;
+    # def get_context_data(self, **kwargs):
+    #     context =  super().get_context_data(**kwargs)
+    #     context['teams'] = Team.objects.all()  # select * from Team;
+    #     context['something'] = 'something444'
 
-        return context 
+        # return context 
 
 
 class ContactUsView(FormView):

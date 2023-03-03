@@ -193,7 +193,7 @@
         <!-- Main title -->
         <div class="main-title">
             <h1>Latest <span>Cars</span></h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Here you can see the latest cars that are published by users or admin</p>
         </div>
         <div class="row">
             {% for car in all_cars %}
@@ -240,10 +240,10 @@
                     </div>
                     <div class="detail">
                         <h1 class="title">
-                            <a href="car-details.html">{{ car.model }}</a>
+                            <a href="{% url 'cardetails' car.pk %}">{{ car.model }}</a>
                         </h1>
                         <div class="location">
-                            <a href="car-details.html">
+                            <a href="{% url 'cardetails' car.pk %}">
                                 <i class="flaticon-pin"></i>{{ car.state }}, {{ car.city }}
                             </a>
                         </div>
@@ -266,7 +266,7 @@
 <!-- Rent car end -->
 
 <!-- Our team start -->
-{% include 'website/teams.html' %} 
+{% include 'website/teams.html' with teams=teams %} 
 <!-- Our team end -->
 
 <!-- Intro section start -->

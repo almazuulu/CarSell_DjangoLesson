@@ -156,7 +156,7 @@
                         <ul>
                             {% if car.owner %}
                             <li>
-                                <span>Onwer:</span>{{ car.owner.first_name }} {{ car.owner.last_name }}
+                                <span>Onwer:</span><a href="{% url 'ownerscars' car.owner.id %}" style="color: red; text-decoration-line:underline;">{{ car.owner.first_name }} {{ car.owner.last_name }}</a>
                             </li>
                             {% endif %}
 

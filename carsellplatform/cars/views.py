@@ -9,6 +9,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
+from django.forms import modelformset_factory
+from django.http import HttpResponseRedirect
+from django.template import RequestContext
 
 from .utils import get_search_filters, CarOwnerOrAdminMixin
 from .forms import CarForm, CarsPhotoForm
@@ -18,12 +21,13 @@ from .models import Car, CarPhoto
 
 
 
+
 class AllCarsView(TemplateView):
     template_name = 'cars/cars.html'
     
     def get_context_data(self, **kwargs):
         allcars = Car.objects.all() #select * from cars;
-        paginator = Paginator(allcars, 2)
+        paginator = Paginator(allcars, 4)
         page = self.request.GET.get('page')
         paged_cars = paginator.get_page(page)
         
@@ -170,7 +174,7 @@ class SearchView(View):
 #     }
 #     return render(request, 'cars/search.html', context)
 
-
+    
 class CarCreateView(LoginRequiredMixin, CreateView):
         model = Car
         login_url = 'login'
@@ -297,16 +301,20 @@ class UpdateCar(LoginRequiredMixin, CarOwnerOrAdminMixin, UpdateView):
                         
             return super().form_valid(form)
 
-def ownerscars(request, id):
-    user = User.objects.get(id=id)
-    usercars  = user.cars.all()
+
+class OwnersCarsView(View):
+    def get(self, request, id):
+        user = User.objects.get(id=id)
+        usercars  = user.cars.all()
+        
+        context ={
+            'owner': user,
+            'usercars': usercars,
+        }
+        
+        return render(request, 'cars/ownerscars.html', context)
+        
     
-    context ={
-        'owner': user,
-        'usercars': usercars,
-    }
-    
-    return render(request, 'cars/ownerscars.html', context)
     
 # @login_required(login_url='login')
 # def update_car(request, id):

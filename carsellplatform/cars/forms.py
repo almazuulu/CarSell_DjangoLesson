@@ -34,7 +34,12 @@ class CarForm(forms.ModelForm):
         
         
 class CarsPhotoForm(forms.ModelForm):
+    # def __init__(self, *args, **kwargs):
+    #     super(CarsPhotoForm, self).__init__(*args, **kwargs)
+    #     self.fields['image'].required = False
+    
     class Meta:
         model = CarPhoto
         fields = ['image']
+        
     
