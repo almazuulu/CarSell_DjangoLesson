@@ -47,7 +47,7 @@
 			<td>
 				<a href="{% url 'cardetails' car.id %}" class="btn btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></a>
 				<a href="{% url 'delete_car' car.id %}" class="btn btn-outline-dark"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                <a href="{% url 'update_car' car.id %}" class="btn btn-outline-dark"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                <a href="{% url 'update_car' car.pk %}" class="btn btn-outline-dark"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 			</td>
 		</tr>
 		{% endfor %}

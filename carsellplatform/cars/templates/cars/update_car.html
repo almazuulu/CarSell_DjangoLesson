@@ -27,9 +27,12 @@
         {% include 'includes/messages.html' %}
         <form method = "post" enctype = "multipart/form-data">
             {% csrf_token %}
-            {{ car_form.as_p }}
-            {{ car_form.media }}
-        
+                {{ form.as_p }}
+                {{ form.media }}
+            <h2> Car Photos</h2>
+                {% for photo_form in car_photos %}
+                {{  photo_form.as_p }}
+                {% endfor %}
             <div class="col-md-12">
                 <div class="send-btn text-center">
                     <button type="submit" class="btn btn-md button-theme">Update car</button>

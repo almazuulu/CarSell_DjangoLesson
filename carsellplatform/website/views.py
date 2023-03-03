@@ -1,83 +1,139 @@
 from django.shortcuts import render, redirect 
-from cars.models import Car
-from .models import Team
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from django.core.mail import send_mail
 from django.contrib import messages
+from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
+from django.urls import reverse_lazy
+
+from cars.utils import get_search_filters
 from .forms import ContactForm
+from cars.models import Car
+from .models import Team
 
 
-def index(request):
-    teams = Team.objects.all()  # select * from Team;
-    featured_cars = Car.objects.order_by('-created_date').filter(is_featured=True)
-    model_search = Car.objects.values_list('model', flat=True).distinct()
-    city_search = Car.objects.values_list('city', flat=True).distinct()
-    year_search = Car.objects.values_list('year', flat=True).distinct()
-    year_search = list(set(year_search))
-    year_search.sort()
-    bs_search = Car.objects.values_list('body_style', flat=True).distinct()
+class IndexView(TemplateView):
+    template_name = 'website/index.html'
     
-    all_cars = Car.objects.order_by('-created_date')
-    context = {
-        'teams': teams,
-        'title': 'Cars.KG Home Page',
-        'featured_cars': featured_cars,
-        'model_search':set(model_search),
-        'city_search': set(city_search),
-        'year_search': year_search,
-        'bs_search': set(bs_search),
-        'all_cars': all_cars,
-    }
-    return render(request, 'website/index.html', context)
-
-def contact_us(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['featured_cars'] =  Car.objects.order_by('-created_date').filter(is_featured=True)
+        context['all_cars'] = Car.objects.order_by('-created_date')
+        context['title'] = 'Cars.KG Home Page'
+        context.update(**get_search_filters())
         
-        if form.is_valid():
-            full_name = form.cleaned_data['full_name']
-            email = form.cleaned_data['email']
-            subject = form.cleaned_data['subject']
-            phone = form.cleaned_data['phone']
-            message = form.cleaned_data['message']
-            
-            message_mail = f'You have message in CarSelling Platform from { full_name } \
+        return context
+
+# def index(request):
+#     featured_cars = Car.objects.order_by('-created_date').filter(is_featured=True)
+#     all_cars = Car.objects.order_by('-created_date')
+#     context = {
+#         'title': 'Cars.KG Home Page',
+#         'featured_cars': featured_cars,
+#         'all_cars': all_cars,
+#         **get_search_filters(),
+#     }
+#     return render(request, 'website/index.html', context)
+
+class TeamsView(TemplateView):
+    template_name = 'website/teams.html'
+    
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context['teams'] = Team.objects.all()  # select * from Team;
+
+        return context 
+
+
+class ContactUsView(FormView):
+    template_name = 'website/contactus.html'
+    form_class = ContactForm
+    success_url = reverse_lazy('contact')
+    
+    def form_valid(self, form):
+        full_name = form.cleaned_data['full_name']
+        email = form.cleaned_data['email']
+        subject = form.cleaned_data['subject']
+        phone = form.cleaned_data['phone']
+        message = form.cleaned_data['message']
+        
+        message_mail = f'You have message in CarSelling Platform from { full_name } \
             regarding: {message} \
             \n\nSender Details: Phone: {phone}; Email: {email}'
     
-            admin_info = User.objects.get(is_superuser=True)
-            admin_email = admin_info.email
+        admin_info = User.objects.get(is_superuser=True)
+        admin_email = admin_info.email
         
-            send_mail(
+        send_mail(
             subject,
             mark_safe(message_mail),
             email,
             [admin_email],
             fail_silently=False,
             )
-            messages.success(request, 'Your message has been successfully sent!')
-    else:
-        form = ContactForm()
-    
-    context = {
-        'title': 'Contact us',
-        'form': form,
+        messages.success(self.request, 'Your message has been successfully sent!')
         
-    }
-    return render(request, 'website/contactus.html', context)
+        return super().form_valid(form)
+    
+    
+# def contact_us(request):
+#     if request.method == 'POST':
+#         form = ContactForm(request.POST)
+        
+#         if form.is_valid():
+#             full_name = form.cleaned_data['full_name']
+#             email = form.cleaned_data['email']
+#             subject = form.cleaned_data['subject']
+#             phone = form.cleaned_data['phone']
+#             message = form.cleaned_data['message']
+            
+#             message_mail = f'You have message in CarSelling Platform from { full_name } \
+#             regarding: {message} \
+#             \n\nSender Details: Phone: {phone}; Email: {email}'
+    
+#             admin_info = User.objects.get(is_superuser=True)
+#             admin_email = admin_info.email
+        
+#             send_mail(
+#             subject,
+#             mark_safe(message_mail),
+#             email,
+#             [admin_email],
+#             fail_silently=False,
+#             )
+#             messages.success(request, 'Your message has been successfully sent!')
+#     else:
+#         form = ContactForm()
+    
+#     context = {
+#         'title': 'Contact us',
+#         'form': form,
+        
+#     }
+#     return render(request, 'website/contactus.html', context)
 
-def about_us(request):
-    context = {
-        'title': 'About us'
-    }
-    return render(request, 'website/aboutus.html', context)
+class AboutView(TemplateView):
+    template_name = 'website/aboutus.html'
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'About us'
+        context['teams'] = Team.objects.all()
+        
+        return context
+        
 
-def services(request):
-    context = {
-        'title': 'Services'
-    }
-    return render(request, 'website/services.html', context)
+# def about_us(request):
+#     context = {
+#         'title': 'About us'
+#     }
+#     return render(request, 'website/aboutus.html', context)
+
+class ServiceView(TemplateView):
+    template_name = 'website/services.html'
+
+
 
 
 

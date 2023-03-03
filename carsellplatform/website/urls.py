@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.urls import path, re_path
-from .views import index, contact_us, about_us, services
+from .views import IndexView, ContactUsView, ServiceView, AboutView
 
 urlpatterns = [
-    path('', index, name = 'home'),
-    path('contact/', contact_us, name ='contact'),
-    path('about/', about_us, name = 'aboutus'),
-    path('services', services, name='services'),
+    path('', IndexView.as_view(), name = 'home'),
+    path('contact/', ContactUsView.as_view(), name ='contact'),
+    path('about/', AboutView.as_view(), name = 'aboutus'),
+    path('services', ServiceView.as_view(), name='services'),
 ]
