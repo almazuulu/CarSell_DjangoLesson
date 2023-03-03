@@ -10,9 +10,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
 
-from .utils import get_search_filters
+from .utils import get_search_filters, CarOwnerOrAdminMixin
 from .forms import CarForm, CarsPhotoForm
+from uaccounts.forms import CommentForm
 from .models import Car, CarPhoto
+
+
 
 
 class AllCarsView(TemplateView):
@@ -51,6 +54,11 @@ class CarDetailsView(DetailView):
     template_name = 'cars/car-details.html'
     context_object_name = 'car'
     pk_url_kwarg = 'id'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comment_form'] = CommentForm()
+        return context
 
 # def cardetails(request, id):
 #     car = Car.objects.get(pk = id)
@@ -224,7 +232,7 @@ class CarCreateView(LoginRequiredMixin, CreateView):
 #     })
 
 
-class CarDeleteView(LoginRequiredMixin, DeleteView):
+class CarDeleteView(LoginRequiredMixin, CarOwnerOrAdminMixin, DeleteView):
     model = Car
     login_url = 'login'
     success_url = reverse_lazy('user_cars')
@@ -248,7 +256,7 @@ def delete_car(request, id):
     return redirect('/accounts/user_cars')
 
 
-class UpdateCar(LoginRequiredMixin, UpdateView):
+class UpdateCar(LoginRequiredMixin, CarOwnerOrAdminMixin, UpdateView):
         model = Car
         login_url = 'login'
         form_class = CarForm
@@ -289,7 +297,17 @@ class UpdateCar(LoginRequiredMixin, UpdateView):
                         
             return super().form_valid(form)
 
-
+def ownerscars(request, id):
+    user = User.objects.get(id=id)
+    usercars  = user.cars.all()
+    
+    context ={
+        'owner': user,
+        'usercars': usercars,
+    }
+    
+    return render(request, 'cars/ownerscars.html', context)
+    
 # @login_required(login_url='login')
 # def update_car(request, id):
 #     user_id = request.user.id

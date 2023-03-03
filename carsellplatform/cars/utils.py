@@ -1,4 +1,5 @@
 from .models import Car
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 def get_search_filters():
     model_search = Car.objects.values_list('model', flat=True).distinct()
@@ -16,5 +17,11 @@ def get_search_filters():
         'bs_style_search': set(bs_search),
         'year_search': year_search,
     }
-    
+
     return context
+
+class CarOwnerOrAdminMixin(UserPassesTestMixin):
+    def test_func(self):
+        car = self.get_object()
+        return self.request.user == car.owner or self.request.user.is_superuser
+

@@ -96,6 +96,32 @@
                                      <p>{{ car.description|default:"Please search information regarding this auto in Wikipedia" }}</p>
                                   {% endautoescape %}
                                 </div>
+                                
+                                <form action="{% url 'add_comment' car.pk %}" method="post">
+                                    {% csrf_token %}
+                                    {{ comment_form.text.label }}
+                                    {{ comment_form.text }}
+                                    <div class="send-btn text-center mt-3">
+                                        <button class="btn btn-primary">Add a comment</button>
+                                    </div>
+                                </form>
+                
+                                <strong> Comments: </strong>
+                                <hr>
+                                {% for comment in car.comments.all %}
+                                <div class="mt-3">
+                                    <small> {{ comment.date_added }} </small>
+                                    by 
+                                    {% if comment.user.first_name == '' %}
+                                    <strong> <a href="{% url 'ownerscars' comment.user.id %}"> {{ comment.user }} </a>: </strong>
+                                    {% else %}
+                                    <strong> <a href="{% url 'ownerscars' comment.user.id %}">{{ comment.user.first_name }} {{ comment.user.last_name }} </a>: </strong>
+                                    {% endif %}
+                                    <br>
+                                    <q> {{ comment.text }} </q>
+                                </div>
+                                {% endfor %}
+
                             </div>
                             <div class="tab-pane fade" id="two" role="tabpanel" aria-labelledby="two-tab">
                                 <div class="features-info mb-50">

@@ -132,6 +132,8 @@ class AboutView(TemplateView):
 
 class ServiceView(TemplateView):
     template_name = 'website/services.html'
+    
+
 
 
 
