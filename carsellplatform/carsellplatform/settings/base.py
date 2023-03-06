@@ -17,7 +17,7 @@ import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -27,9 +27,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY') 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', cast=bool) 
+DEBUG = True
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv()) 
+#ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv()) 
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 AUTHENTICATION_BACKENDS = [
    
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -48,8 +49,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "whitenoise.runserver_nostatic",
     "django.contrib.sites",
     "ckeditor",
+    "captcha",
     "active_link",
     "django.contrib.humanize",
     "website.apps.WebsiteConfig",
@@ -78,7 +81,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "carsellplatform.urls"
@@ -88,6 +91,7 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [os.path.join(BASE_DIR, 'templates')],
         "APP_DIRS": True,
+        
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -193,6 +197,9 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', cast=str)
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', cast=str)
 EMAIL_USE_TSL = config('EMAIL_USE_TSL', cast=bool)
 EMAIL_USE_SSL = config('EMAIL_USE_SSL', cast=bool)
+
+
+#RECAPTCHA_DOMAIN = 'www.recaptcha.net'
 
 
 CKEDITOR_CONFIGS = {

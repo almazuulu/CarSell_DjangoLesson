@@ -1,4 +1,5 @@
 from django import forms
+from captcha.fields import CaptchaField
 
 class ContactForm(forms.Form):
     full_name = forms.CharField(
@@ -44,5 +45,7 @@ class ContactForm(forms.Form):
             'placeholder': 'Enter your message',
         })
     )
+    
+    captcha = CaptchaField()
     
     

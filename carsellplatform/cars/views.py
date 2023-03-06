@@ -19,9 +19,6 @@ from uaccounts.forms import CommentForm
 from .models import Car, CarPhoto
 
 
-
-
-
 class AllCarsView(TemplateView):
     template_name = 'cars/cars.html'
     
