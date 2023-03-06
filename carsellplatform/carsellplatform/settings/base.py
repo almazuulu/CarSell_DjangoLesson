@@ -84,7 +84,8 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
-ROOT_URLCONF = "carsellplatform.urls"
+#ROOT_URLCONF = "carsellplatform.urls"
+ROOT_URLCONF = os.path.join(BASE_DIR, 'carsellplatform.urls')
 
 TEMPLATES = [
     {
