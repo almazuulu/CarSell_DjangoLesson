@@ -1,0 +1,2 @@
+web: gunicorn carsellplatform.wsgi.py --log-file -
+
