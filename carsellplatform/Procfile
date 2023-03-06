@@ -1,2 +1,2 @@
-web: gunicorn carsellplatform.wsgi.py --log-file -
+web: gunicorn carsellplatform.wsgi --log-file -
 
