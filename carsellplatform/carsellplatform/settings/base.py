@@ -17,7 +17,7 @@ import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -85,7 +85,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "carsellplatform.urls"
-#ROOT_URLCONF = os.path.join(BASE_DIR, 'carsellplatform.urls')
 
 TEMPLATES = [
     {
@@ -164,7 +163,14 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 
 LOGIN_REDIRECT_URL= 'dashboard'
 SITE_ID = 1
@@ -201,7 +207,7 @@ EMAIL_USE_SSL = config('EMAIL_USE_SSL', cast=bool)
 
 
 #RECAPTCHA_DOMAIN = 'www.recaptcha.net'
-
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
 
 CKEDITOR_CONFIGS = {
     'default': {

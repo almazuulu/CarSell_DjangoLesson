@@ -27,7 +27,7 @@ def inquiry(request):
             
             if has_contacted:
                 messages.error(request, 'Sorry, but you have already contacted regarding this automobile')
-                return redirect('/cars/'+car_id)
+                return redirect('cardetails', car_id)
         
         contact = Contact.objects.create(
             car_id = car_id, car_title = car_title,
