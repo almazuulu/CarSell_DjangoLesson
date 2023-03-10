@@ -54,11 +54,15 @@ INSTALLED_APPS = [
     "ckeditor",
     "captcha",
     "active_link",
+    "rest_framework",
     "django.contrib.humanize",
+    
+    #apps of the project
     "website.apps.WebsiteConfig",
     "cars.apps.CarsConfig",
     "uaccounts.apps.UaccountsConfig",
     "contacts.apps.ContactsConfig",
+    "drfcars.apps.DrfcarsConfig",
     
     # allaccounts:
     'allauth',
@@ -118,11 +122,11 @@ WSGI_APPLICATION = "carsellplatform.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config('DB_NAME'),
-        "USER": config('DB_USER'),
-        "PASSWORD": config('DB_PASSWORD'),
-        "HOST": config('DB_HOST'),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": 'sqlite3',
+        # "USER": config('DB_USER'),
+        # "PASSWORD": config('DB_PASSWORD'),
+        # "HOST": config('DB_HOST'),
     }
 }
 
@@ -138,6 +142,14 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 
 # Internationalization
