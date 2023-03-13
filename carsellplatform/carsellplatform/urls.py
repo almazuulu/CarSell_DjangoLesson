@@ -18,12 +18,11 @@ from django.urls import path, include, re_path
 from website import views
 from django.conf.urls.static import static
 from django.conf import settings
-from drfcars.views import CarsAPIView
+from drfcars.views import CarsAPIView, TeamAPIView
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/v1/carslist/", CarsAPIView.as_view()),
     path("", include('website.urls')),
     path("cars/", include('cars.urls')),
     path("accounts/", include('uaccounts.urls')),
@@ -31,6 +30,7 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
     path('socialaccounts/', include('allauth.urls')),
     path('api-auth/', include('rest_framework.urls')),
+    path('api/v1/', include('drfcars.urls')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
  
 
