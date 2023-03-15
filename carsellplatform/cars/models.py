@@ -70,7 +70,7 @@ class Car(models.Model):
     fuel_mileage = models.CharField(max_length=255)
     is_featured = models.BooleanField(default=False)
     created_date = models.DateTimeField(auto_now_add=True)
-    
+    update_date = models.DateTimeField(auto_now=True)
     
     def __str__(self) -> str:
         return self.car_title

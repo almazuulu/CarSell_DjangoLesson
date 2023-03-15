@@ -13,7 +13,7 @@ class CarAdmin(admin.ModelAdmin):
         return format_html(html_code.format(object.car_main_photo.url))
     
     inlines = [CarImageAdmin]
-    list_display = ('thumbnail', 'car_title', 'model', 'color', 'year', 'fuel_type', 'is_featured')
+    list_display = ('thumbnail', 'car_title', 'model', 'color', 'year', 'fuel_type', 'is_featured', 'created_date', 'update_date')
     search_fields = ('car_title', 'model',  'fuel_type', 'body_style')
     list_filter = ('fuel_type', 'color', 'color')
     list_display_links = ('thumbnail', 'car_title')

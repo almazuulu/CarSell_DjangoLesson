@@ -118,7 +118,12 @@ class TeamDetailView(APIView):
         return Response(serializer.data)
     
 class TeamDeleteAPIView(APIView):
-    pass
+    permission_classes = [IsAuthenticated]
+    
+    def delete(self, request, pk):
+        worker = Team.objects.filter(pk=pk)
+        worker.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
       
 class CommentAPIView(APIView):

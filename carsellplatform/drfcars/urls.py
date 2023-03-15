@@ -12,6 +12,7 @@ urlpatterns = [
     path('teamslist/', TeamAPIView.as_view()),
     path('team/<str:pk>', TeamDetailView.as_view()),
     path('teamslist/<str:pk>', TeamAPIView.as_view()),
+    path('teamdelete/<str:pk>', TeamDeleteAPIView.as_view()),
     # Comment API
     path('commentlist/', CommentAPIView.as_view()),
     path('commentlist/<str:pk>', CommentAPIView.as_view()),
