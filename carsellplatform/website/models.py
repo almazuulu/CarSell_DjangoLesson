@@ -6,7 +6,7 @@ class Team(models.Model):
     first_name = models.CharField(max_length=255, null=False)
     last_name = models.CharField(max_length=255, null=False, verbose_name='Second name')
     designation = models.CharField(max_length=255, null=False)
-    photo = models.ImageField(upload_to='photo/%Y/%m/%d', null=True)
+    photo = models.ImageField(upload_to='photo/%Y/%m/%d', default='photo/default-avatar.png', null=True)
     facebook_link = models.URLField(max_length=255, blank=True, verbose_name='Social Facebook')
     twitter_link = models.URLField(max_length=255, blank=True)
     whatsapp_link = models.URLField(max_length=255, blank=True)
@@ -19,6 +19,7 @@ class Team(models.Model):
     class Meta:
         verbose_name = 'Worker'
         verbose_name_plural = 'Workers'
+        ordering = ['-created_date']
     
     
     

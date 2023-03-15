@@ -127,16 +127,20 @@
                                     <br>
                                     <span>{{ fcar.price }}</span>
                                 </div>
+                                {% if fcar.car_main_photo %}
                                 <img class="d-block w-100" src="{{ fcar.car_main_photo.url }}" alt="car">
+                                {% endif %}
                             </a>
                             <div class="carbox-overlap-wrapper">
                                 <div class="overlap-box">
                                     <div class="overlap-btns-area">
                                         <div class="car-magnify-gallery">
+                                            {% if fcar.car_main_photo %}
                                             <a href="{{ fcar.car_main_photo.url }}" class="overlap-btn">
                                                 <i class="fa fa-expand"></i>
                                                 <img class="hidden" src="{{ fcar.car_main_photo.url }}">
                                             </a>
+                                            {% endif %}
 
                                             {% if fcar.carphoto_set.all %}
                                                 {% for pic in fcar.carphoto_set.all %}
@@ -202,7 +206,9 @@
                     <div class="car-thumbnail">
                         <a href="car-details.html" class="car-img">
                             {% comment %} <div class="tag">For Sale</div> {% endcomment %}
+                            {% if car.car_main_photo %}
                             <img class="d-block w-100" src="{{ car.car_main_photo.url }}" alt="car">
+                            {% endif %}
                             <div class="facilities-list clearfix">
                                 <ul>
                                     <li>
@@ -221,10 +227,13 @@
                             <div class="overlap-box">
                                 <div class="overlap-btns-area">
                                     <div class="car-magnify-gallery">
+                                        {% if car.car_main_photo %}
                                         <a href="{{ car.car_main_photo.url }}" class="overlap-btn">
                                             <i class="fa fa-expand"></i>
                                             <img class="hidden" src="{{ car.car_main_photo.url }}">
                                         </a>
+                                        {% endif %}
+
                                         {% if fcar.carspost_set.all %}
                                             {% for photo in car.carspost_set.all %}
                                                 <a href="{{ photo.images.url }}" class="hidden">

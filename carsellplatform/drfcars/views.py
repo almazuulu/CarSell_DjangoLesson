@@ -5,9 +5,11 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 
 from cars.models import Car
 from website.models import Team
+from uaccounts.models import Comment
 from .serializer import *
 
 
@@ -27,18 +29,38 @@ class CarsAPIView(APIView):
     #     return Response({'title': 'Ferrari f1'})
 
 
-class CarCreateView(APIView):
+class CarCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]
     
     def post(self, request):
-        car = CarCreateSerializer(data=request.data)
-        if car.is_valid():
-            car.save()
-            
-        return Response(status=201)
+        serializer = CarCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class CarUpdateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def put(self, request, pk):
+        car = Car.objects.get(pk=pk)
+        serializer = CarCreateSerializer(car, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
-class CarDetailView(APIView):
+class CarDeleteAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def delete(self, request, pk):
+        car = Car.objects.get(id=pk)
+        car.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
+        
+class CarDetailAPIView(APIView):
     permission_classes = [IsAuthenticated]
     
     def get(self, request, pk):
@@ -47,7 +69,6 @@ class CarDetailView(APIView):
         
         return Response(serializer.data)
     
-
 class TeamAPIView(APIView):
     permission_classes = [IsAuthenticated]
     
@@ -95,8 +116,58 @@ class TeamDetailView(APIView):
         serializer = TeamDetailViewSerializer(team)
 
         return Response(serializer.data)
-        
     
+class TeamDeleteAPIView(APIView):
+    pass
+
+      
+class CommentAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        comments = Comment.objects.all()
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+    
+    def put(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "Method PUT not allowed!"})
+        try:
+            isinstance = Comment.objects.get(pk=pk)
+        except:
+            return Response({"error": "Object does not exist!"})
+        
+        serializer =  CommentSerializer(data=request.data, instance=isinstance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        
+        return Response(serializer.data)
+
+    # def put(self, request, *args, **kwargs):
+    #     pk = kwargs.get("id", None)
+    #     if not pk:
+    #         return Response({"error": "Method PUT not allowed!"})
+    #     try:
+    #         isinstance = Comment.objects.get(id=pk)
+    #     except:
+    #         return Response({"error": "Object does not exist!"})
+
+    #     serializer = CommentSerializer(data=request.data, instance=isinstance)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+
+    #     return Response(serializer.data)
+
+        
+class CommentDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        comments = Comment.objects.get(id=pk)
+        serializer = CommentDetailViewSerializer(comments)
+
+        return Response(serializer.data)   
 # class CarsAPIView(generics.ListAPIView):
 #     queryset = Car.objects.all()
 #     serializer_class = CarSerializer
